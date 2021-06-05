@@ -3,10 +3,14 @@ import Button from "./Button";
 
 const Header = ({ title }) => {
   //{ title } is a destructor
+  const onClick = () => {
+    console.log("click");
+  };
+
   return (
     <header className="header">
       <h1>{title}</h1>
-      <Button color="green" text="Hello" />
+      <Button color="green" text="Hello" onClick={onClick} />
     </header>
   );
 };
