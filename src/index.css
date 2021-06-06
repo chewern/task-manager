@@ -29,7 +29,7 @@ body {
 
 .btn {
   display: inline-block;
-  background: #000;
+  background: rgb(164, 88, 235);
   color: #fff;
   border: none;
   padding: 10px 20px;
@@ -55,14 +55,14 @@ body {
 }
 
 .task {
-  background: #f4f4f4;
+  background: #f1f0f0af;
   margin: 5px;
   padding: 10px 20px;
   cursor: pointer;
 }
 
 .task.reminder {
-  border-left: 5px solid green;
+  border-left: 5px solid red;
 }
 
 .task h3 {

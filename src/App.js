@@ -1,5 +1,6 @@
 import Header from "./components/Header";
 import Tasks from "./components/Tasks";
+import AddTask from "./components/AddTask";
 import { useState } from "react";
 
 const App = () => {
@@ -24,6 +25,14 @@ const App = () => {
     },
   ]);
 
+  //Add Task
+  const addTask = (task) => {
+    //generate a random number between 1 and 10000
+    const id = Math.floor(Math.random() * 10000) + 1;
+    const newTask = { id, ...task };
+    setTasks([...tasks, newTask]); //...tasks is to copy in the current tasks, followed by the newTask
+  };
+
   //Delete task
   const deleteTask = (id) => {
     setTasks(tasks.filter((task) => task.id !== id));
@@ -41,6 +50,7 @@ const App = () => {
   return (
     <div className="container">
       <Header title="Task List" />
+      <AddTask onAdd={addTask} />
       {tasks.length > 0 ? (
         <Tasks tasks={tasks} onDelete={deleteTask} onToggle={toggleReminder} />
       ) : (
