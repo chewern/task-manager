@@ -1,8 +1,9 @@
 import { useState } from "react";
+import DatePicker from "react-date-picker";
 
 const AddTask = ({ onAdd }) => {
   const [text, setText] = useState("");
-  const [day, setDay] = useState("");
+  const [day, setDay] = useState(new Date());
   const [reminder, setReminder] = useState(false);
 
   const onSubmit = (e) => {
@@ -13,12 +14,17 @@ const AddTask = ({ onAdd }) => {
       return; //this will exit the function
     }
 
-    //this will capture the entries
-    onAdd({ text, day, reminder });
+    //this will capture the entries and send it up to onAdd in App.js
+    let date = day.toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+    onAdd({ text, date, reminder });
 
     //below will clear the form after entries are capture by onAdd
     setText("");
-    setDay("");
+    setDay(new Date());
     setReminder(false);
   };
 
@@ -35,11 +41,12 @@ const AddTask = ({ onAdd }) => {
       </div>
       <div className="form-control">
         <label>Date & Time</label>
-        <input
-          type="text"
-          placeholder="Add Date & Time"
+        <DatePicker
+          //type="text"
+          //placeholder="Add Date & Time"
+          //dateFormat="dd MM yyyy"
           value={day}
-          onChange={(e) => setDay(e.target.value)}
+          onChange={(e) => setDay(e)}
         />
       </div>
       <div className="form-control form-control-check">

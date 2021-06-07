@@ -1,6 +1,7 @@
 import Header from "./components/Header";
 import Tasks from "./components/Tasks";
 import AddTask from "./components/AddTask";
+
 import { useState } from "react";
 
 const App = () => {
@@ -9,19 +10,13 @@ const App = () => {
     {
       id: 1,
       text: "Running",
-      day: "15 Feb 2021 3:30pm",
+      date: "15 Feb 2021",
       reminder: true,
     },
     {
       id: 2,
       text: "Swimming",
-      day: "22 Feb 2021 3:30pm",
-      reminder: true,
-    },
-    {
-      id: 3,
-      text: "Sleeping",
-      day: "24 Feb 2021 8:30pm",
+      date: "15 Feb 2021",
       reminder: true,
     },
   ]);
