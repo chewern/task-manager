@@ -25,12 +25,24 @@ const App = () => {
     return data;
   };
 
-  //Add Task
-  const addTask = (task) => {
+  //Add Task to frontend using setTasks
+  /*   const addTask = (task) => {
     //generate a random number between 1 and 10000
     const id = Math.floor(Math.random() * 10000) + 1;
     const newTask = { id, ...task };
     setTasks([...tasks, newTask]); //...tasks is to copy in the current tasks, followed by the newTask
+    addTaskToBackend(newTask);
+  }; */
+
+  //Add new task to backend using fetch
+  //no need to add id as this will be handled during POST
+  const addTask = async (task) => {
+    const res = await fetch("http://localhost:8000/tasks", {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify(task),
+    });
+    setTasks([...tasks, res.json()]); //updating frontend
   };
 
   //Delete task
