@@ -37,18 +37,24 @@ const App = () => {
   //Add new task to backend using fetch
   //no need to add id as this will be handled during POST
   const addTask = async (task) => {
-    const res = await fetch("http://localhost:8000/tasks", {
+    var res = await fetch("http://localhost:8000/tasks", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify(task),
     });
-    setTasks([...tasks, res.json()]); //updating frontend
+
+    const updatedTasks = await res.json();
+    console.log(updatedTasks);
+    setTasks([updatedTasks]); //updating frontend
   };
 
   //Delete task
   const deleteTask = async (id) => {
-    await fetch(`http://localhost:8000/tasks/${id}`, { method: "DELETE" });
     setTasks(tasks.filter((task) => task.id !== id));
+
+    await fetch(`http://localhost:8000/tasks/${id}`, {
+      method: "DELETE",
+    });
   };
 
   //Toggle Reminder
