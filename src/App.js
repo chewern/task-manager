@@ -11,6 +11,7 @@ const App = () => {
   useEffect(() => {
     const getTasks = async () => {
       const getFromServer = await fetchTasks();
+      console.log(getFromServer);
       setTasks(getFromServer);
     };
 
@@ -45,7 +46,7 @@ const App = () => {
 
     const updatedTasks = await res.json();
     console.log(updatedTasks);
-    setTasks([updatedTasks]); //updating frontend
+    setTasks(updatedTasks); //updating frontend
   };
 
   //Delete task
