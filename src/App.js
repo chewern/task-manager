@@ -11,7 +11,7 @@ const App = () => {
   useEffect(() => {
     const getTasks = async () => {
       const getFromServer = await fetchTasks();
-      console.log(getFromServer);
+      //console.log(getFromServer);
       setTasks(getFromServer);
     };
 
@@ -26,6 +26,12 @@ const App = () => {
     return data;
   };
 
+  const fetchTask = async (id) => {
+    const res = await fetch(`http://localhost:8000/tasks/${id}`);
+    const data = await res.json();
+
+    return data;
+  };
   //Add Task to frontend using setTasks
   /*   const addTask = (task) => {
     //generate a random number between 1 and 10000
@@ -36,7 +42,7 @@ const App = () => {
   }; */
 
   //Add new task to backend using fetch
-  //no need to add id as this will be handled during POST
+  //no need to add id as this will be handled during POST at backend
   const addTask = async (task) => {
     var res = await fetch("http://localhost:8000/tasks", {
       method: "POST",
@@ -45,7 +51,7 @@ const App = () => {
     });
 
     const updatedTasks = await res.json();
-    console.log(updatedTasks);
+    //console.log(updatedTasks);
     setTasks(updatedTasks); //updating frontend
   };
 
@@ -59,10 +65,33 @@ const App = () => {
   };
 
   //Toggle Reminder
-  const toggleReminder = (id) => {
+  /*   const changeReminder = async (id) => {
+    var taskToToggle = await fetchTask(id);
+    taskToToggle[0].reminder = !taskToToggle[0].reminder;
+    //const updateTask = { ...taskToToggle, reminder: !taskToToggle.reminder };
+    console.log("CR ", taskToToggle);
+    return taskToToggle;
+  }; */
+
+  const toggleReminder = async (id) => {
+    //const updTask = await changeReminder(id);
+    var taskToToggle = await fetchTask(id);
+    taskToToggle[0].reminder = !taskToToggle[0].reminder;
+
+    const res = await fetch(`http://localhost:8000/tasks/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(taskToToggle),
+    });
+
+    const data = await res.json();
+    console.log("received from backend", data.reminder);
+
     setTasks(
       tasks.map((task) =>
-        task.id === id ? { ...task, reminder: !task.reminder } : task
+        task.id === id ? { ...task, reminder: data.reminder } : task
       )
     );
   };
