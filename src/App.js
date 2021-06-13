@@ -4,8 +4,7 @@ import AddTask from "./components/AddTask";
 
 import { useState, useEffect } from "react";
 
-const addDocker =
-  "http://ip172-18-0-45-c32cobfqf8u000cgav4g-8000.direct.labs.play-with-docker.com";
+import * as Constants from "./components/Constants";
 
 const App = () => {
   const [showAddTask, setShowAddTask] = useState();
@@ -23,14 +22,14 @@ const App = () => {
 
   //Fetch Tasks from backend server
   const fetchTasks = async () => {
-    const res = await fetch(addDocker + "/tasks/");
+    const res = await fetch(Constants.GetAllTasksURL);
     const data = await res.json();
 
     return data;
   };
 
   const fetchTask = async (id) => {
-    const res = await fetch(addDocker + `/tasks/${id}`);
+    const res = await fetch(Constants.GetTaskURL + `${id}`);
     const data = await res.json();
 
     return data;
@@ -47,7 +46,7 @@ const App = () => {
   //Add new task to backend using fetch
   //no need to add id as this will be handled during POST at backend
   const addTask = async (task) => {
-    var res = await fetch(addDocker + "/tasks", {
+    var res = await fetch(Constants.PostURL, {
       method: "POST",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify(task),
@@ -62,7 +61,7 @@ const App = () => {
   const deleteTask = async (id) => {
     setTasks(tasks.filter((task) => task.id !== id));
 
-    await fetch(addDocker + `/tasks/${id}`, {
+    await fetch(Constants.DeleteURL + `${id}`, {
       method: "DELETE",
     });
   };
@@ -81,7 +80,7 @@ const App = () => {
     var taskToToggle = await fetchTask(id);
     taskToToggle[0].reminder = !taskToToggle[0].reminder;
 
-    const res = await fetch(addDocker + `/tasks/${id}`, {
+    const res = await fetch(Constants.PutURL + `${id}`, {
       method: "PUT",
       headers: {
         "Content-type": "application/json",
